@@ -4,28 +4,26 @@
 <meta charset="UTF-8">
 
 <!-- قفل الزوم -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport"
+content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-<title>نتائج المعهد العالي للخدمة الاجتماعية بكفر الشيخ</title>
+<title>نتائج المعهد العالي للخدمة الاجتماعية</title>
 
 <style>
-/* ====== العرض على الشاشة ====== */
 body{
   margin:0;
   font-family: Arial, sans-serif;
-  font-size:17px;
-}
+  font-size:18px;
 
-html, body{
-  touch-action: manipulation;
+  /* الخلفية */
+  background:
+    linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)),
+    url("https://i.ibb.co/KxGJfJsZ/background.jpg") no-repeat center center;
+  background-size: cover;
 }
 
 .overlay{
   min-height:100vh;
-  background:
-    linear-gradient(rgba(255,255,255,0.75), rgba(255,255,255,0.75)),
-    url("https://i.ibb.co/KxGJfJsZ/background.jpg") no-repeat center center fixed;
-  background-size: cover;
   display:flex;
   justify-content:center;
   padding:20px 0;
@@ -33,24 +31,24 @@ html, body{
 
 .box{
   width:95%;
-  max-width:500px;      /* تقليل العرض */
+  max-width:420px;
   background:#fff;
-  padding:15px;         /* تقليل الطول */
-  border-radius:10px;
-  box-shadow:0 0 12px rgba(0,0,0,.2);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 0 15px rgba(0,0,0,0.2);
 }
 
 h2{
   text-align:center;
-  font-size:22px;
-  margin:8px 0 12px;
+  font-size:24px;
+  margin-bottom:15px;
 }
 
-input, button{
+input,button{
   width:100%;
-  padding:10px;
-  font-size:16px;
-  margin-top:8px;
+  padding:12px;
+  font-size:18px;
+  margin-top:10px;
 }
 
 button{
@@ -60,76 +58,50 @@ button{
   border-radius:6px;
 }
 
-.print-btn{
-  background:#444;
-  display:none;
-}
-
 table{
   width:100%;
   border-collapse:collapse;
-  margin-top:10px;
-  font-size:15px;
+  margin-top:15px;
+  font-size:17px;
 }
 
-th, td{
+td,th{
   border:1px solid #ccc;
-  padding:6px;
+  padding:8px;
   text-align:center;
 }
 
 th{
-  background:#eee;
+  background:#f1f1f1;
 }
 
 .success{color:green;font-weight:bold;}
 .fail{color:red;font-weight:bold;}
-.second{color:gray;font-weight:bold;}
+.second{color:#777;font-weight:bold;}
 
-.error{
-  color:red;
-  text-align:center;
-  margin-top:10px;
+#printBtn{
+  display:none;
+  margin-top:15px;
+  background:#444;
 }
 
-/* ====== إعدادات الطباعة (الأهم) ====== */
+/* إعدادات الطباعة */
 @media print{
   body{
-    background:#fff;
-    font-size:14px;              /* تصغير الخط للطباعة */
-  }
-
-  .overlay{
     background:#fff !important;
-    min-height:auto;             /* منع صفحة إضافية */
-    padding:0;
   }
-
+  button,input{
+    display:none !important;
+  }
   .box{
     box-shadow:none;
     max-width:100%;
-    padding:0;
-  }
-
-  input, button{
-    display:none;                /* إخفاء الأزرار */
-  }
-
-  table{
-    margin-top:6px;
-    page-break-inside: avoid;    /* منع كسر الجدول */
-  }
-
-  h2{
-    font-size:18px;
-    margin-bottom:6px;
   }
 }
 </style>
 </head>
 
 <body>
-
 <div class="overlay">
 <div class="box">
 
@@ -140,121 +112,121 @@ th{
 
 <div id="result"></div>
 
-<button class="print-btn" id="printBtn" onclick="window.print()">🖨️ طباعة النتيجة</button>
+<button id="printBtn" onclick="window.print()">🖨️ طباعة النتيجة</button>
 
 </div>
 </div>
 
 <script>
-const students = {
+const data = {
   100:{
-    name:"أحمد محمود",
+    name:"أحمد علي",
     year:"الفرقة الثانية",
     status:"مستجد",
-    subjects:{
-      "مادة 1":"م",
-      "مادة 2":"ل",
-      "مادة 3":"ض"
-    },
+    subjects:[
+      ["مادة 1","م"],
+      ["مادة 2","ل"],
+      ["مادة 3","ض"]
+    ],
     final:"دور تاني"
   },
   101:{
-    name:"محمد علي",
+    name:"محمد حسن",
     year:"الفرقة الثانية",
     status:"مستجد",
-    subjects:{
-      "مادة 1":"م",
-      "مادة 2":"ل",
-      "مادة 3":"ل"
-    },
+    subjects:[
+      ["مادة 1","م"],
+      ["مادة 2","ل"],
+      ["مادة 3","ل"]
+    ],
     final:"ناجح"
   },
   102:{
-    name:"يوسف حسن",
+    name:"محمود إبراهيم",
     year:"الفرقة الثانية",
     status:"مستجد",
-    subjects:{
-      "مادة 1":"ر ت",
-      "مادة 2":"ض",
-      "مادة 3":"ض"
-    },
+    subjects:[
+      ["مادة 1","ر ت"],
+      ["مادة 2","ض"],
+      ["مادة 3","ض"]
+    ],
     final:"راسب"
   },
   103:{
-    name:"عمر سامي",
+    name:"علي فتحي",
     year:"الفرقة الثانية",
     status:"مستجد",
-    subjects:{
-      "مادة 1":"م",
-      "مادة 2":"ل",
-      "مادة 3":"ض"
-    },
+    subjects:[
+      ["مادة 1","م"],
+      ["مادة 2","ل"],
+      ["مادة 3","ض"]
+    ],
     final:"دور تاني"
   },
   104:{
-    name:"كريم فؤاد",
+    name:"يوسف محمود",
     year:"الفرقة الثانية",
     status:"مستجد",
-    subjects:{
-      "مادة 1":"م",
-      "مادة 2":"ل",
-      "مادة 3":"ج"
-    },
+    subjects:[
+      ["مادة 1","م"],
+      ["مادة 2","ل"],
+      ["مادة 3","ج"]
+    ],
     final:"ناجح"
   },
   105:{
     name:"سيف الدين",
     year:"الفرقة الثانية",
     status:"مستجد",
-    subjects:{
-      "مادة 1":"م",
-      "مادة 2":"ل",
-      "مادة 3":"ج ج"
-    },
+    subjects:[
+      ["مادة 1","م"],
+      ["مادة 2","ل"],
+      ["مادة 3","ج ج"]
+    ],
     final:"ناجح"
   }
 };
 
 function showResult(){
-  const seat = document.getElementById("seat").value.trim();
-  const resultDiv = document.getElementById("result");
-  const printBtn = document.getElementById("printBtn");
+  const seat = document.getElementById("seat").value;
+  const r = document.getElementById("result");
+  const p = document.getElementById("printBtn");
 
-  if(!students[seat]){
-    resultDiv.innerHTML = "<p class='error'>رقم الجلوس غير موجود</p>";
-    printBtn.style.display = "none";
+  if(!data[seat]){
+    r.innerHTML = "<p class='fail'>رقم الجلوس غير موجود</p>";
+    p.style.display="none";
     return;
   }
 
-  const s = students[seat];
-  let rows = "";
-  for(let sub in s.subjects){
-    rows += `<tr><td>${sub}</td><td>${s.subjects[sub]}</td></tr>`;
-  }
+  const d = data[seat];
 
-  let cls = s.final === "ناجح" ? "success" :
-            s.final === "راسب" ? "fail" : "second";
+  let html = `
+  <table>
+    <tr><th>رقم الجلوس</th><td>${seat}</td></tr>
+    <tr><th>اسم الطالب</th><td>${d.name}</td></tr>
+    <tr><th>الفرقة</th><td>${d.year}</td></tr>
+    <tr><th>الحالة الدراسية</th><td>${d.status}</td></tr>
+  </table>
 
-  resultDiv.innerHTML = `
-    <table>
-      <tr><th>رقم الجلوس</th><td>${seat}</td></tr>
-      <tr><th>اسم الطالب</th><td>${s.name}</td></tr>
-      <tr><th>الفرقة</th><td>${s.year}</td></tr>
-      <tr><th>الحالة الدراسية</th><td>${s.status}</td></tr>
-    </table>
+  <table>
+    <tr><th>المادة</th><th>التقدير</th></tr>`;
 
-    <table>
-      <tr><th>المادة</th><th>التقدير</th></tr>
-      ${rows}
-    </table>
+  d.subjects.forEach(s=>{
+    html += `<tr><td>${s[0]}</td><td>${s[1]}</td></tr>`;
+  });
 
-    <table>
-      <tr><th>النتيجة النهائية</th></tr>
-      <tr><td class="${cls}">${s.final}</td></tr>
-    </table>
+  let cls = d.final==="ناجح"?"success":d.final==="راسب"?"fail":"second";
+
+  html += `
+  </table>
+  <table>
+    <tr><th>النتيجة النهائية</th></tr>
+    <tr><td class="${cls}">${d.final}</td></tr>
+  </table>
   `;
 
-  printBtn.style.display = "block";
+  r.innerHTML = html;
+  p.style.display="block";
 }
 </script>
 
