@@ -18,11 +18,18 @@
       border-radius: 8px;
       box-shadow: 0 0 10px #ccc;
     }
+    h2 { text-align: center; color: #003366; }
     input, button {
       width: 100%;
       padding: 10px;
       margin: 10px 0;
       font-size: 16px;
+    }
+    button {
+      background: #003366;
+      color: #fff;
+      border: none;
+      cursor: pointer;
     }
     table {
       width: 100%;
@@ -34,13 +41,14 @@
       padding: 8px;
       text-align: center;
     }
-    th {
-      background: #eee;
-    }
-    .success {
-      color: green;
-      font-weight: bold;
-    }
+    th { background: #eee; }
+
+    /* ألوان النتيجة */
+    .pass { color: green; font-weight: bold; }
+    .fail { color: red; font-weight: bold; }
+    .second { color: gray; font-weight: bold; }
+
+    .error { color: red; text-align: center; margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -55,20 +63,98 @@
 </div>
 
 <script>
-const data = {
-  55: {
-    name: "ماجد أحمد",
-    year: "الفرقة الأولى",
+/* بيانات تجريبية */
+const results = {
+  "100": {
     subjects: {
-      "مادة 1": "ج",
-      "مادة 2": "م",
-      "مادة 3": "ل",
-      "مادة 4": "م",
-      "التربية العسكرية": "ناجح"
+      "مادة 1": "م",
+      "مادة 2": "ل",
+      "مادة 3": "ض"
     },
-    result: "ناجح"
+    final: "دور تاني"
+  },
+
+  "101": {
+    subjects: {
+      "مادة 1": "م",
+      "مادة 2": "ل",
+      "مادة 3": "ل"
+    },
+    final: "ناجح"
+  },
+
+  "102": {
+    subjects: {
+      "مادة 1": "ر ت",
+      "مادة 2": "ض",
+      "مادة 3": "ض"
+    },
+    final: "راسب"
+  },
+
+  "103": {
+    subjects: {
+      "مادة 1": "م",
+      "مادة 2": "ل",
+      "مادة 3": "ض"
+    },
+    final: "دور تاني"
+  },
+
+  "104": {
+    subjects: {
+      "مادة 1": "م",
+      "مادة 2": "ل",
+      "مادة 3": "ج"
+    },
+    final: "ناجح"
+  },
+
+  "105": {
+    subjects: {
+      "مادة 1": "م",
+      "مادة 2": "ل",
+      "مادة 3": "ج ج"
+    },
+    final: "ناجح"
   }
 };
 
 function showResult() {
-  const seat = document.getElementById("seat").value; 
+  const seat = document.getElementById("seat").value.trim();
+  const resultDiv = document.getElementById("result");
+
+  if (!seat) {
+    resultDiv.innerHTML = "<p class='error'>من فضلك أدخل رقم الجلوس</p>";
+    return;
+  }
+
+  if (!results[seat]) {
+    resultDiv.innerHTML = "<p class='error'>رقم الجلوس غير موجود</p>";
+    return;
+  }
+
+  const r = results[seat];
+  let html = `<table>
+    <tr><th>المادة</th><th>التقدير</th></tr>`;
+
+  for (let sub in r.subjects) {
+    html += `<tr><td>${sub}</td><td>${r.subjects[sub]}</td></tr>`;
+  }
+
+  let resultClass = "";
+  if (r.final === "ناجح") resultClass = "pass";
+  else if (r.final === "راسب") resultClass = "fail";
+  else if (r.final === "دور تاني") resultClass = "second";
+
+  html += `</table>
+    <p class="${resultClass}" style="margin-top:10px">
+      النتيجة النهائية: ${r.final}
+    </p>`;
+
+  resultDiv.innerHTML = html;
+}
+</script>
+
+</body>
+</html>
