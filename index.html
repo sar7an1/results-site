@@ -6,40 +6,47 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-<title>نتائج المعهد العالي للخدمة الاجتماعية</title>
+<title>نتائج المعهد</title>
 
 <style>
+*{
+    box-sizing:border-box;
+}
+
 body{
-    font-family: Arial, sans-serif;
-    background:#f2f2f2;
     margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+    background:#f2f2f2;
+    overflow-x:hidden; /* يمنع التحريك يمين وشمال */
 }
 
 .container{
+    width:100%;
     max-width:420px;
-    margin:20px auto;
+    margin:15px auto;
     background:#fff;
-    padding:15px;
-    border-radius:12px;
-    box-shadow:0 0 10px rgba(0,0,0,.1);
+    padding:12px;
+    border-radius:10px;
 }
 
 .logo{
     display:block;
     margin:0 auto 10px;
-    width:120px;
+    width:110px;
 }
 
 h2{
     text-align:center;
-    margin:10px 0;
+    margin:5px 0 15px;
+    font-size:20px;
 }
 
 input,button{
     width:100%;
     padding:12px;
-    font-size:18px;
-    margin-top:10px;
+    font-size:17px;
+    margin-bottom:10px;
 }
 
 button{
@@ -52,22 +59,25 @@ button{
 table{
     width:100%;
     border-collapse:collapse;
-    margin-top:15px;
+    margin-top:10px;
 }
 
-td,th{
+td{
     border:1px solid #ccc;
     padding:8px;
-    text-align:center;
+    font-size:15px;
 }
 
-th{
+td:first-child{
     background:#eee;
+    width:40%;
+    font-weight:bold;
 }
 
 .result{
-    font-size:20px;
+    font-size:18px;
     font-weight:bold;
+    text-align:center;
 }
 
 .success{color:green;}
@@ -76,7 +86,7 @@ th{
 
 #printBtn{
     display:none;
-    margin-top:15px;
+    margin-top:10px;
     background:#444;
 }
 
@@ -84,9 +94,9 @@ th{
     input,button{display:none;}
     body{background:#fff;}
     .container{
-        box-shadow:none;
-        margin:0;
         max-width:100%;
+        margin:0;
+        border-radius:0;
     }
 }
 </style>
@@ -99,7 +109,10 @@ th{
 <img class="logo"
 src="https://i.ibb.co/rGNkvYSr/FB-IMG-1771020697204.jpg">
 
-<h2>نتائج المعهد العالي للخدمة الاجتماعية<br>بكفر الشيخ</h2>
+<h2>
+نتائج المعهد العالي للخدمة الاجتماعية<br>
+بكفر الشيخ
+</h2>
 
 <input type="number" id="seat" placeholder="رقم الجلوس">
 <button onclick="showResult()">إظهار النتيجة</button>
@@ -127,41 +140,39 @@ for(let i=100;i<=199;i++){
 
 function showResult(){
     const seat=document.getElementById("seat").value;
-    const data=students[seat];
+    const s=students[seat];
     const out=document.getElementById("output");
-    const printBtn=document.getElementById("printBtn");
+    const btn=document.getElementById("printBtn");
 
-    if(!data){
-        out.innerHTML="<p style='color:red'>رقم الجلوس غير موجود</p>";
-        printBtn.style.display="none";
+    if(!s){
+        out.innerHTML="<p style='color:red;text-align:center'>رقم الجلوس غير موجود</p>";
+        btn.style.display="none";
         return;
     }
 
     let cls="success";
-    if(data.result==="راسب") cls="fail";
-    if(data.result==="دور تاني") cls="second";
+    if(s.result==="راسب") cls="fail";
+    if(s.result==="دور تاني") cls="second";
 
     out.innerHTML=`
     <table>
-        <tr><th>البيان</th><th>القيمة</th></tr>
-
         <tr><td>رقم الجلوس</td><td>${seat}</td></tr>
-        <tr><td>اسم الطالب</td><td>${data.name}</td></tr>
-        <tr><td>الفرقة</td><td>${data.class}</td></tr>
-        <tr><td>الحالة الدراسية</td><td>${data.status}</td></tr>
+        <tr><td>اسم الطالب</td><td>${s.name}</td></tr>
+        <tr><td>الفرقة</td><td>${s.class}</td></tr>
+        <tr><td>الحالة الدراسية</td><td>${s.status}</td></tr>
 
-        <tr><th colspan="2">المواد</th></tr>
-        <tr><td>مادة 1</td><td>${data.m1}</td></tr>
-        <tr><td>مادة 2</td><td>${data.m2}</td></tr>
-        <tr><td>مادة 3</td><td>${data.m3}</td></tr>
+        <tr><td>مادة 1</td><td>${s.m1}</td></tr>
+        <tr><td>مادة 2</td><td>${s.m2}</td></tr>
+        <tr><td>مادة 3</td><td>${s.m3}</td></tr>
 
-        <tr><th>النتيجة النهائية</th>
-            <th class="result ${cls}">${data.result}</th>
+        <tr>
+            <td>النتيجة النهائية</td>
+            <td class="result ${cls}">${s.result}</td>
         </tr>
     </table>
     `;
 
-    printBtn.style.display="block";
+    btn.style.display="block";
 }
 </script>
 
