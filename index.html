@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- منع الزوم -->
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<!-- قفل الزوم -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>نتائج المعهد العالي للخدمة الاجتماعية بكفر الشيخ</title>
 
@@ -12,38 +12,36 @@
 body{
   margin:0;
   font-family: Arial, sans-serif;
-  background: url("background.jpg") no-repeat center center fixed;
+  background: url("https://i.ibb.co/KxGJfJsZ/background.jpg") no-repeat center center fixed;
   background-size: cover;
+  font-size:18px;
+}
+
+/* منع التكبير باللمس */
+html, body{
+  touch-action: manipulation;
 }
 
 .overlay{
   min-height:100vh;
-  background: rgba(255,255,255,0.88);
+  background: rgba(255,255,255,0.85);
   display:flex;
   justify-content:center;
-  align-items:flex-start;
-  padding-top:40px;
+  padding-top:30px;
 }
 
 .box{
   width:95%;
-  max-width:420px;
+  max-width:520px;
   background:#fff;
   padding:20px;
   border-radius:12px;
-  box-shadow:0 0 15px rgba(0,0,0,0.2);
-}
-
-.logo{
-  width:120px;
-  display:block;
-  margin:0 auto 10px;
+  box-shadow:0 0 15px rgba(0,0,0,.2);
 }
 
 h2{
   text-align:center;
-  font-size:22px;
-  margin-bottom:15px;
+  font-size:24px;
 }
 
 input, button{
@@ -58,6 +56,12 @@ button{
   color:#fff;
   border:none;
   border-radius:6px;
+  cursor:pointer;
+}
+
+.print-btn{
+  background:#444;
+  display:none; /* مخفي لحد ما النتيجة تظهر */
 }
 
 table{
@@ -67,33 +71,39 @@ table{
   font-size:17px;
 }
 
-td, th{
+th, td{
   border:1px solid #ccc;
   padding:8px;
   text-align:center;
 }
 
-.success{ color:green; font-weight:bold; }
-.fail{ color:red; font-weight:bold; }
-.second{ color:#777; font-weight:bold; }
-
-.print-btn{
-  margin-top:15px;
-  background:#444;
+th{
+  background:#eee;
 }
 
+.success{color:green;font-weight:bold;}
+.fail{color:red;font-weight:bold;}
+.second{color:gray;font-weight:bold;}
+
+.error{
+  color:red;
+  text-align:center;
+  margin-top:10px;
+}
+
+/* عند الطباعة */
 @media print{
-  button, input{ display:none; }
-  body{ background:#fff; }
+  input, button{display:none;}
+  body{background:#fff;}
+  .overlay{background:#fff;}
 }
 </style>
 </head>
 
 <body>
+
 <div class="overlay">
 <div class="box">
-
-<img src="logo.png" class="logo">
 
 <h2>نتائج المعهد العالي للخدمة الاجتماعية<br>بكفر الشيخ</h2>
 
@@ -102,13 +112,13 @@ td, th{
 
 <div id="result"></div>
 
-<button class="print-btn" onclick="window.print()">🖨️ طباعة النتيجة</button>
+<button class="print-btn" id="printBtn" onclick="window.print()">🖨️ طباعة النتيجة</button>
 
 </div>
 </div>
 
 <script>
-const data = {
+const students = {
   100:{
     name:"أحمد محمود",
     year:"الفرقة الثانية",
@@ -178,39 +188,46 @@ const data = {
 };
 
 function showResult(){
-  const seat = document.getElementById("seat").value;
-  const r = document.getElementById("result");
+  const seat = document.getElementById("seat").value.trim();
+  const resultDiv = document.getElementById("result");
+  const printBtn = document.getElementById("printBtn");
 
-  if(!data[seat]){
-    r.innerHTML = "<p class='fail'>رقم الجلوس غير موجود</p>";
+  if(!students[seat]){
+    resultDiv.innerHTML = "<p class='error'>رقم الجلوس غير موجود</p>";
+    printBtn.style.display = "none";
     return;
   }
 
-  let s = "";
-  for(let sub in data[seat].subjects){
-    s += `<tr><td>${sub}</td><td>${data[seat].subjects[sub]}</td></tr>`;
+  const s = students[seat];
+  let rows = "";
+  for(let sub in s.subjects){
+    rows += `<tr><td>${sub}</td><td>${s.subjects[sub]}</td></tr>`;
   }
 
-  let cls = data[seat].final=="ناجح" ? "success" :
-            data[seat].final=="راسب" ? "fail" : "second";
+  let cls = s.final === "ناجح" ? "success" :
+            s.final === "راسب" ? "fail" : "second";
 
-  r.innerHTML = `
-  <table>
-    <tr><th>الاسم</th><td>${data[seat].name}</td></tr>
-    <tr><th>الفرقة</th><td>${data[seat].year}</td></tr>
-    <tr><th>الحالة</th><td>${data[seat].status}</td></tr>
-  </table>
+  resultDiv.innerHTML = `
+    <table>
+      <tr><th>رقم الجلوس</th><td>${seat}</td></tr>
+      <tr><th>اسم الطالب</th><td>${s.name}</td></tr>
+      <tr><th>الفرقة</th><td>${s.year}</td></tr>
+      <tr><th>الحالة الدراسية</th><td>${s.status}</td></tr>
+    </table>
 
-  <table>
-    <tr><th>المادة</th><th>التقدير</th></tr>
-    ${s}
-  </table>
+    <table>
+      <tr><th>المادة</th><th>التقدير</th></tr>
+      ${rows}
+    </table>
 
-  <table>
-    <tr><th>النتيجة النهائية</th>
-    <td class="${cls}">${data[seat].final}</td></tr>
-  </table>
+    <table>
+      <tr><th>النتيجة النهائية</th></tr>
+      <tr><td class="${cls}">${s.final}</td></tr>
+    </table>
   `;
+
+  /* إظهار زر الطباعة بعد ظهور النتيجة */
+  printBtn.style.display = "block";
 }
 </script>
 
