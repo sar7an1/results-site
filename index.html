@@ -2,101 +2,110 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<title>نتائج المعهد</title>
+<title>نتائج المعهد العالي للخدمة الاجتماعية</title>
 
 <style>
 *{
     box-sizing:border-box;
+    font-family: Arial, sans-serif;
 }
 
 body{
     margin:0;
-    padding:0;
-    font-family:Arial, sans-serif;
     background:#f2f2f2;
-    overflow-x:hidden; /* يمنع التحريك يمين وشمال */
+    overflow-x:hidden;
 }
 
 .container{
-    width:100%;
     max-width:420px;
-    margin:15px auto;
+    margin:20px auto;
     background:#fff;
-    padding:12px;
-    border-radius:10px;
+    padding:15px;
+    border-radius:12px;
 }
 
 .logo{
-    display:block;
-    margin:0 auto 10px;
-    width:110px;
-}
-
-h2{
     text-align:center;
-    margin:5px 0 15px;
-    font-size:20px;
+}
+.logo img{
+    width:90px;
 }
 
-input,button{
+h1{
+    text-align:center;
+    font-size:20px;
+    margin:10px 0 15px;
+}
+
+input{
     width:100%;
     padding:12px;
-    font-size:17px;
+    font-size:18px;
+    text-align:center;
     margin-bottom:10px;
 }
 
 button{
-    background:#0b4f7c;
+    width:100%;
+    padding:14px;
+    font-size:18px;
+    background:#0d4f7a;
     color:#fff;
     border:none;
-    border-radius:6px;
+    border-radius:8px;
+    cursor:pointer;
 }
 
 table{
     width:100%;
     border-collapse:collapse;
-    margin-top:10px;
+    margin-top:15px;
 }
 
 td{
     border:1px solid #ccc;
-    padding:8px;
-    font-size:15px;
+    padding:10px;
+    font-size:16px;
 }
 
+/* العمود اليمين (العناوين) */
 td:first-child{
-    background:#eee;
-    width:40%;
-    font-weight:bold;
+    background:#f0f0f0;
+    width:45%;
 }
 
-.result{
-    font-size:18px;
-    font-weight:bold;
+/* العمود الشمال (القيم) */
+td:nth-child(2){
     text-align:center;
+    vertical-align:middle;
 }
 
-.success{color:green;}
-.fail{color:red;}
-.second{color:#777;}
+/* النتيجة النهائية */
+.success{
+    color:green;
+    font-weight:bold;
+    font-size:18px;
+}
 
 #printBtn{
     display:none;
-    margin-top:10px;
+    margin-top:15px;
     background:#444;
 }
 
+/* إعدادات الطباعة */
 @media print{
-    input,button{display:none;}
-    body{background:#fff;}
+    button,input{
+        display:none;
+    }
+    body{
+        background:#fff;
+    }
     .container{
-        max-width:100%;
-        margin:0;
-        border-radius:0;
+        box-shadow:none;
+        margin:0 auto;
     }
 }
 </style>
@@ -106,73 +115,79 @@ td:first-child{
 
 <div class="container">
 
-<img class="logo"
-src="https://i.ibb.co/rGNkvYSr/FB-IMG-1771020697204.jpg">
+    <div class="logo">
+        <img src="https://i.ibb.co/rGNkvYSr/FB-IMG-1771020697204.jpg">
+    </div>
 
-<h2>
-نتائج المعهد العالي للخدمة الاجتماعية<br>
-بكفر الشيخ
-</h2>
+    <h1>
+        نتائج المعهد العالي للخدمة الاجتماعية<br>
+        بكفر الشيخ
+    </h1>
 
-<input type="number" id="seat" placeholder="رقم الجلوس">
-<button onclick="showResult()">إظهار النتيجة</button>
+    <input type="number" id="seat" placeholder="رقم الجلوس">
 
-<div id="output"></div>
+    <button onclick="showResult()">إظهار النتيجة</button>
 
-<button id="printBtn" onclick="window.print()">🖨️ طباعة النتيجة</button>
+    <table id="resultTable" style="display:none;">
+        <tr>
+            <td>رقم الجلوس</td>
+            <td id="rSeat"></td>
+        </tr>
+        <tr>
+            <td>اسم الطالب</td>
+            <td id="rName"></td>
+        </tr>
+        <tr>
+            <td>الفرقة</td>
+            <td id="rLevel"></td>
+        </tr>
+        <tr>
+            <td>الحالة الدراسية</td>
+            <td id="rStatus"></td>
+        </tr>
+        <tr>
+            <td>مادة 1</td>
+            <td id="m1"></td>
+        </tr>
+        <tr>
+            <td>مادة 2</td>
+            <td id="m2"></td>
+        </tr>
+        <tr>
+            <td>مادة 3</td>
+            <td id="m3"></td>
+        </tr>
+        <tr>
+            <td>النتيجة النهائية</td>
+            <td class="success" id="final"></td>
+        </tr>
+    </table>
+
+    <button id="printBtn" onclick="window.print()">🖨️ طباعة النتيجة</button>
 
 </div>
 
 <script>
-const students = {};
-
-for(let i=100;i<=199;i++){
-    students[i]={
-        name:"طالب "+i,
-        class:"الفرقة الثانية",
-        status:"مستجد",
-        m1:"م",
-        m2:"ل",
-        m3:"ج",
-        result: i%3===0 ? "ناجح" : i%3===1 ? "دور تاني" : "راسب"
-    }
-}
-
 function showResult(){
-    const seat=document.getElementById("seat").value;
-    const s=students[seat];
-    const out=document.getElementById("output");
-    const btn=document.getElementById("printBtn");
-
-    if(!s){
-        out.innerHTML="<p style='color:red;text-align:center'>رقم الجلوس غير موجود</p>";
-        btn.style.display="none";
+    const seat = document.getElementById("seat").value;
+    if(seat < 100 || seat > 199){
+        alert("رقم الجلوس من 100 إلى 199");
         return;
     }
 
-    let cls="success";
-    if(s.result==="راسب") cls="fail";
-    if(s.result==="دور تاني") cls="second";
+    document.getElementById("resultTable").style.display = "table";
+    document.getElementById("printBtn").style.display = "block";
 
-    out.innerHTML=`
-    <table>
-        <tr><td>رقم الجلوس</td><td>${seat}</td></tr>
-        <tr><td>اسم الطالب</td><td>${s.name}</td></tr>
-        <tr><td>الفرقة</td><td>${s.class}</td></tr>
-        <tr><td>الحالة الدراسية</td><td>${s.status}</td></tr>
+    document.getElementById("rSeat").innerText = seat;
+    document.getElementById("rName").innerText = "طالب " + seat;
+    document.getElementById("rLevel").innerText = "الفرقة الثانية";
+    document.getElementById("rStatus").innerText = "مستجد";
 
-        <tr><td>مادة 1</td><td>${s.m1}</td></tr>
-        <tr><td>مادة 2</td><td>${s.m2}</td></tr>
-        <tr><td>مادة 3</td><td>${s.m3}</td></tr>
+    document.getElementById("m1").innerText = "م";
+    document.getElementById("m2").innerText = "ل";
+    document.getElementById("m3").innerText = "ج";
 
-        <tr>
-            <td>النتيجة النهائية</td>
-            <td class="result ${cls}">${s.result}</td>
-        </tr>
-    </table>
-    `;
-
-    btn.style.display="block";
+    document.getElementById("final").innerText = "ناجح";
 }
 </script>
 
