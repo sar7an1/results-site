@@ -1,158 +1,171 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>نتائج المعهد العالي للخدمة الاجتماعية بكفر الشيخ</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      direction: rtl;
-      background: #f4f6f8;
-      padding: 20px;
-    }
-    .box {
-      max-width: 600px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px #ccc;
-    }
-    h2 { text-align: center; color: #003366; }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      font-size: 16px;
-    }
-    button {
-      background: #003366;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: center;
-    }
-    th { background: #eee; }
+<meta charset="UTF-8">
+<title>نتائج المعهد العالي للخدمة الاجتماعية بكفر الشيخ</title>
 
-    /* ألوان النتيجة */
-    .pass { color: green; font-weight: bold; }
-    .fail { color: red; font-weight: bold; }
-    .second { color: gray; font-weight: bold; }
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f5f5f5;
+}
 
-    .error { color: red; text-align: center; margin-top: 10px; }
-  </style>
+.container{
+    width:95%;
+    max-width:650px;
+    margin:50px auto;
+    background:#fff;
+    padding:20px;
+    border-radius:8px;
+    box-shadow:0 0 10px #ccc;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+input,button{
+    width:100%;
+    padding:10px;
+    font-size:16px;
+    margin-bottom:10px;
+}
+
+button{
+    background:#0a3d62;
+    color:#fff;
+    border:none;
+    cursor:pointer;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+th,td{
+    border:1px solid #ccc;
+    padding:8px;
+    text-align:center;
+}
+
+th{
+    background:#eee;
+}
+
+.result{
+    margin-top:15px;
+    font-weight:bold;
+    text-align:center;
+    padding:10px;
+}
+
+.success{color:green;}
+.fail{color:red;}
+.second{color:gray;}
+</style>
 </head>
+
 <body>
 
-<div class="box">
-  <h2>نتائج المعهد العالي للخدمة الاجتماعية بكفر الشيخ</h2>
+<div class="container">
+    <h2>نتائج المعهد العالي للخدمة الاجتماعية بكفر الشيخ</h2>
 
-  <input type="number" id="seat" placeholder="اكتب رقم الجلوس">
-  <button onclick="showResult()">إظهار النتيجة</button>
+    <input type="number" id="seat" placeholder="ادخل رقم الجلوس">
+    <button onclick="showResult()">إظهار النتيجة</button>
 
-  <div id="result"></div>
+    <div id="output"></div>
 </div>
 
 <script>
-/* بيانات تجريبية */
-const results = {
-  "100": {
-    subjects: {
-      "مادة 1": "م",
-      "مادة 2": "ل",
-      "مادة 3": "ض"
+const data = {
+    100:{
+        subjects:{
+            "مادة 1":"م",
+            "مادة 2":"ل",
+            "مادة 3":"ض"
+        },
+        result:"دور تاني"
     },
-    final: "دور تاني"
-  },
-
-  "101": {
-    subjects: {
-      "مادة 1": "م",
-      "مادة 2": "ل",
-      "مادة 3": "ل"
+    101:{
+        subjects:{
+            "مادة 1":"م",
+            "مادة 2":"ل",
+            "مادة 3":"ل"
+        },
+        result:"ناجح"
     },
-    final: "ناجح"
-  },
-
-  "102": {
-    subjects: {
-      "مادة 1": "ر ت",
-      "مادة 2": "ض",
-      "مادة 3": "ض"
+    102:{
+        subjects:{
+            "مادة 1":"ر ت",
+            "مادة 2":"ض",
+            "مادة 3":"ض"
+        },
+        result:"راسب"
     },
-    final: "راسب"
-  },
-
-  "103": {
-    subjects: {
-      "مادة 1": "م",
-      "مادة 2": "ل",
-      "مادة 3": "ض"
+    103:{
+        subjects:{
+            "مادة 1":"م",
+            "مادة 2":"ل",
+            "مادة 3":"ض"
+        },
+        result:"دور تاني"
     },
-    final: "دور تاني"
-  },
-
-  "104": {
-    subjects: {
-      "مادة 1": "م",
-      "مادة 2": "ل",
-      "مادة 3": "ج"
+    104:{
+        subjects:{
+            "مادة 1":"م",
+            "مادة 2":"ل",
+            "مادة 3":"ج"
+        },
+        result:"ناجح"
     },
-    final: "ناجح"
-  },
-
-  "105": {
-    subjects: {
-      "مادة 1": "م",
-      "مادة 2": "ل",
-      "مادة 3": "ج ج"
-    },
-    final: "ناجح"
-  }
+    105:{
+        subjects:{
+            "مادة 1":"م",
+            "مادة 2":"ل",
+            "مادة 3":"ج ج"
+        },
+        result:"ناجح"
+    }
 };
 
-function showResult() {
-  const seat = document.getElementById("seat").value.trim();
-  const resultDiv = document.getElementById("result");
+function showResult(){
+    const seat = document.getElementById("seat").value;
+    const out = document.getElementById("output");
 
-  if (!seat) {
-    resultDiv.innerHTML = "<p class='error'>من فضلك أدخل رقم الجلوس</p>";
-    return;
-  }
+    if(!data[seat]){
+        out.innerHTML = "<p style='color:red;text-align:center'>رقم الجلوس غير موجود</p>";
+        return;
+    }
 
-  if (!results[seat]) {
-    resultDiv.innerHTML = "<p class='error'>رقم الجلوس غير موجود</p>";
-    return;
-  }
+    let html = `
+    <table>
+        <tr>
+            <th>المادة</th>
+            <th>التقدير</th>
+        </tr>`;
 
-  const r = results[seat];
-  let html = `<table>
-    <tr><th>المادة</th><th>التقدير</th></tr>`;
+    for(let sub in data[seat].subjects){
+        html += `
+        <tr>
+            <td>${sub}</td>
+            <td>${data[seat].subjects[sub]}</td>
+        </tr>`;
+    }
 
-  for (let sub in r.subjects) {
-    html += `<tr><td>${sub}</td><td>${r.subjects[sub]}</td></tr>`;
-  }
+    html += "</table>";
 
-  let resultClass = "";
-  if (r.final === "ناجح") resultClass = "pass";
-  else if (r.final === "راسب") resultClass = "fail";
-  else if (r.final === "دور تاني") resultClass = "second";
+    let cls = "second";
+    if(data[seat].result==="ناجح") cls="success";
+    if(data[seat].result==="راسب") cls="fail";
 
-  html += `</table>
-    <p class="${resultClass}" style="margin-top:10px">
-      النتيجة النهائية: ${r.final}
-    </p>`;
+    html += `<div class="result ${cls}">
+        النتيجة النهائية: ${data[seat].result}
+    </div>`;
 
-  resultDiv.innerHTML = html;
+    out.innerHTML = html;
 }
 </script>
 
