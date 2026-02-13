@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- قفل الزوم -->
 <meta name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <title>نتائج المعهد العالي للخدمة الاجتماعية</title>
 
@@ -14,7 +13,6 @@ body{
     font-family: Arial, sans-serif;
     background:#f2f2f2;
     margin:0;
-    padding:0;
 }
 
 .container{
@@ -55,7 +53,6 @@ table{
     width:100%;
     border-collapse:collapse;
     margin-top:15px;
-    font-size:16px;
 }
 
 td,th{
@@ -71,7 +68,6 @@ th{
 .result{
     font-size:20px;
     font-weight:bold;
-    padding:10px;
 }
 
 .success{color:green;}
@@ -84,10 +80,9 @@ th{
     background:#444;
 }
 
-/* الطباعة */
 @media print{
+    input,button{display:none;}
     body{background:#fff;}
-    button,input{display:none;}
     .container{
         box-shadow:none;
         margin:0;
@@ -101,10 +96,8 @@ th{
 
 <div class="container">
 
-<!-- لوجو المعهد -->
 <img class="logo"
-src="https://i.ibb.co/rGNkvYSr/FB-IMG-1771020697204.jpg"
-alt="لوجو المعهد">
+src="https://i.ibb.co/rGNkvYSr/FB-IMG-1771020697204.jpg">
 
 <h2>نتائج المعهد العالي للخدمة الاجتماعية<br>بكفر الشيخ</h2>
 
@@ -120,13 +113,14 @@ alt="لوجو المعهد">
 <script>
 const students = {};
 
-// توليد 100 طالب من 100 إلى 199
 for(let i=100;i<=199;i++){
     students[i]={
         name:"طالب "+i,
         class:"الفرقة الثانية",
         status:"مستجد",
-        subjects:["م","ل","ج"],
+        m1:"م",
+        m2:"ل",
+        m3:"ج",
         result: i%3===0 ? "ناجح" : i%3===1 ? "دور تاني" : "راسب"
     }
 }
@@ -150,22 +144,20 @@ function showResult(){
     out.innerHTML=`
     <table>
         <tr><th>البيان</th><th>القيمة</th></tr>
+
         <tr><td>رقم الجلوس</td><td>${seat}</td></tr>
         <tr><td>اسم الطالب</td><td>${data.name}</td></tr>
         <tr><td>الفرقة</td><td>${data.class}</td></tr>
         <tr><td>الحالة الدراسية</td><td>${data.status}</td></tr>
-    </table>
 
-    <table>
-        <tr><th>المادة</th><th>التقدير</th></tr>
-        <tr><td>مادة 1</td><td>${data.subjects[0]}</td></tr>
-        <tr><td>مادة 2</td><td>${data.subjects[1]}</td></tr>
-        <tr><td>مادة 3</td><td>${data.subjects[2]}</td></tr>
-    </table>
+        <tr><th colspan="2">المواد</th></tr>
+        <tr><td>مادة 1</td><td>${data.m1}</td></tr>
+        <tr><td>مادة 2</td><td>${data.m2}</td></tr>
+        <tr><td>مادة 3</td><td>${data.m3}</td></tr>
 
-    <table>
-        <tr><th>النتيجة النهائية</th></tr>
-        <tr><td class="result ${cls}">${data.result}</td></tr>
+        <tr><th>النتيجة النهائية</th>
+            <th class="result ${cls}">${data.result}</th>
+        </tr>
     </table>
     `;
 
