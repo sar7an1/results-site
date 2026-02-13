@@ -2,122 +2,112 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>نتائج المعهد العالي للخدمة الاجتماعية</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>نتائج المعهد العالي للخدمة الاجتماعية بكفر الشيخ</title>
 
 <style>
-* {
-  box-sizing: border-box;
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#f5f5f5;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  overflow-x: hidden;
+.container{
+    max-width:420px;
+    margin:10px auto;
+    background:#fff;
+    padding:15px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,.15);
 }
 
-.container {
-  width: 100%;
-  max-width: 420px;
-  margin: auto;
-  padding: 10px;
-  background: #fff;
+/* اللوجو */
+.logo{
+    display:block;
+    margin:0 auto 10px;
+    width:90px;
 }
 
-/* ===== اللوجو ===== */
-.logo {
-  text-align: center;
-  margin-top: 10px;
+/* العنوان */
+h1{
+    text-align:center;
+    font-size:20px;
+    margin:5px 0 15px;
 }
 
-.logo img {
-  width: 90px;
+/* input */
+input{
+    width:100%;
+    padding:10px;
+    font-size:16px;
+    margin-bottom:10px;
 }
 
-/* ===== العنوان ===== */
-.title {
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
-  margin: 10px 0 20px;
+/* زر */
+button{
+    width:100%;
+    padding:10px;
+    font-size:16px;
+    background:#0b4c7a;
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
 }
 
-/* ===== الإدخال ===== */
-input {
-  width: 100%;
-  padding: 12px;
-  font-size: 18px;
-  margin-bottom: 10px;
+/* الجدول */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+    font-size:15px;
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  font-size: 18px;
-  background: #0d4a7c;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
+td{
+    border:1px solid #ccc;
+    padding:8px;
 }
 
-/* ===== الجدول ===== */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
-  font-size: 16px;
+td:first-child{
+    background:#f0f0f0;
+    width:45%;
 }
 
-td, th {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: center;
+/* النتيجة */
+.success{
+    color:green;
+    font-weight:bold;
+}
+.fail{
+    color:red;
+    font-weight:bold;
+}
+.second{
+    color:#777;
+    font-weight:bold;
 }
 
-th {
-  background: #eee;
+/* زر الطباعة */
+#printBtn{
+    display:none;
+    margin-top:15px;
+    background:#444;
 }
 
-.success {
-  color: green;
-  font-weight: bold;
-}
-
-.fail {
-  color: red;
-  font-weight: bold;
-}
-
-.second {
-  color: gray;
-  font-weight: bold;
-}
-
-/* ===== زر الطباعة ===== */
-#printBtn {
-  display: none;
-  margin-top: 15px;
-  background: #444;
-}
-
-/* ===== إعدادات الطباعة ===== */
-@media print {
-  body {
-    background: #fff;
-  }
-
-  input, button {
-    display: none;
-  }
-
-  .container {
-    max-width: 100%;
-  }
-
-  .logo img {
-    width: 80px;
-  }
+/* إعدادات الطباعة */
+@media print{
+    body{
+        background:#fff;
+    }
+    .container{
+        box-shadow:none;
+        margin:0;
+        max-width:100%;
+    }
+    input, button{
+        display:none;
+    }
 }
 </style>
 </head>
@@ -126,86 +116,68 @@ th {
 
 <div class="container">
 
-  <!-- اللوجو -->
-  <div class="logo">
-    <img src="https://i.ibb.co/rGNkvYSr/FB-IMG-1771020697204.jpg" alt="لوجو المعهد">
-  </div>
+<img class="logo" src="https://i.ibb.co/rGNkvYSr/FB-IMG-1771020697204.jpg">
 
-  <!-- العنوان -->
-  <div class="title">
-    نتائج المعهد العالي للخدمة الاجتماعية<br>
-    بكفر الشيخ
-  </div>
+<h1>نتائج المعهد العالي للخدمة الاجتماعية<br>بكفر الشيخ</h1>
 
-  <!-- إدخال رقم الجلوس -->
-  <input type="number" id="seat" placeholder="ادخل رقم الجلوس">
-  <button onclick="showResult()">إظهار النتيجة</button>
+<input type="number" id="seat" placeholder="اكتب رقم الجلوس">
 
-  <!-- النتيجة -->
-  <div id="result"></div>
+<button onclick="showResult()">إظهار النتيجة</button>
 
-  <!-- زر الطباعة -->
-  <button id="printBtn" onclick="window.print()">🖨️ طباعة النتيجة</button>
+<div id="result"></div>
+
+<button id="printBtn" onclick="window.print()">🖨️ طباعة النتيجة</button>
 
 </div>
 
 <script>
 const data = {
-  105: {
-    name: "سيف الدين",
-    year: "الفرقة الثانية",
-    status: "مستجد",
-    subjects: [
-      { name: "مادة 1", grade: "م" },
-      { name: "مادة 2", grade: "ل" },
-      { name: "مادة 3", grade: "ج ج" }
+  105:{
+    name:"سيف الدين",
+    level:"الفرقة الثانية",
+    status:"مستجد",
+    subjects:[
+      ["مادة 1","م"],
+      ["مادة 2","ل"],
+      ["مادة 3","ج ج"]
     ],
-    result: "ناجح",
-    class: "success"
+    final:"ناجح"
   }
 };
 
-function showResult() {
+function showResult(){
   const seat = document.getElementById("seat").value;
-  const res = document.getElementById("result");
+  const r = data[seat];
+  const box = document.getElementById("result");
   const printBtn = document.getElementById("printBtn");
 
-  if (!data[seat]) {
-    res.innerHTML = "<p style='color:red;text-align:center'>رقم الجلوس غير موجود</p>";
-    printBtn.style.display = "none";
+  if(!r){
+    box.innerHTML = "<p style='color:red;text-align:center'>رقم الجلوس غير موجود</p>";
+    printBtn.style.display="none";
     return;
   }
 
-  const d = data[seat];
-
   let html = `
-    <table>
-      <tr><th>البيان</th><th>القيمة</th></tr>
-      <tr><td>رقم الجلوس</td><td>${seat}</td></tr>
-      <tr><td>اسم الطالب</td><td>${d.name}</td></tr>
-      <tr><td>الفرقة</td><td>${d.year}</td></tr>
-      <tr><td>الحالة الدراسية</td><td>${d.status}</td></tr>
-    </table>
-
-    <table>
-      <tr><th>المادة</th><th>التقدير</th></tr>
+  <table>
+    <tr><td>رقم الجلوس</td><td>${seat}</td></tr>
+    <tr><td>اسم الطالب</td><td>${r.name}</td></tr>
+    <tr><td>الفرقة</td><td>${r.level}</td></tr>
+    <tr><td>الحالة الدراسية</td><td>${r.status}</td></tr>
   `;
 
-  d.subjects.forEach(s => {
-    html += `<tr><td>${s.name}</td><td>${s.grade}</td></tr>`;
+  r.subjects.forEach(s=>{
+    html += `<tr><td>${s[0]}</td><td>${s[1]}</td></tr>`;
   });
 
-  html += `
-    </table>
+  let cls = r.final==="ناجح" ? "success" : r.final==="راسب" ? "fail" : "second";
 
-    <table>
-      <tr><th>النتيجة النهائية</th></tr>
-      <tr><td class="${d.class}">${d.result}</td></tr>
-    </table>
+  html += `
+    <tr><td>النتيجة النهائية</td><td class="${cls}">${r.final}</td></tr>
+  </table>
   `;
 
-  res.innerHTML = html;
-  printBtn.style.display = "block";
+  box.innerHTML = html;
+  printBtn.style.display="block";
 }
 </script>
 
