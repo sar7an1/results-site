@@ -11,9 +11,8 @@ body{
 }
 
 .container{
-    width:95%;
-    max-width:650px;
-    margin:50px auto;
+    max-width:700px;
+    margin:40px auto;
     background:#fff;
     padding:20px;
     border-radius:8px;
@@ -28,12 +27,12 @@ h2{
 input,button{
     width:100%;
     padding:10px;
-    font-size:16px;
     margin-bottom:10px;
+    font-size:16px;
 }
 
 button{
-    background:#0a3d62;
+    background:#0b3c6d;
     color:#fff;
     border:none;
     cursor:pointer;
@@ -55,117 +54,117 @@ th{
     background:#eee;
 }
 
-.result{
-    margin-top:15px;
-    font-weight:bold;
-    text-align:center;
-    padding:10px;
-}
-
-.success{color:green;}
-.fail{color:red;}
-.second{color:gray;}
+.success{color:green;font-weight:bold;}
+.fail{color:red;font-weight:bold;}
+.second{color:gray;font-weight:bold;}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-    <h2>نتائج المعهد العالي للخدمة الاجتماعية بكفر الشيخ</h2>
+<h2>نتائج المعهد العالي للخدمة الاجتماعية بكفر الشيخ</h2>
 
-    <input type="number" id="seat" placeholder="ادخل رقم الجلوس">
-    <button onclick="showResult()">إظهار النتيجة</button>
+<input type="number" id="seat" placeholder="أدخل رقم الجلوس">
+<button onclick="showResult()">إظهار النتيجة</button>
 
-    <div id="output"></div>
+<div id="result"></div>
 </div>
 
 <script>
-const data = {
-    100:{
-        subjects:{
-            "مادة 1":"م",
-            "مادة 2":"ل",
-            "مادة 3":"ض"
-        },
-        result:"دور تاني"
+const students = {
+  100:{
+    name:"أحمد محمد",
+    subjects:{
+      "مادة 1":"م",
+      "مادة 2":"ل",
+      "مادة 3":"ض"
     },
-    101:{
-        subjects:{
-            "مادة 1":"م",
-            "مادة 2":"ل",
-            "مادة 3":"ل"
-        },
-        result:"ناجح"
+    final:"دور تاني"
+  },
+  101:{
+    name:"محمد علي",
+    subjects:{
+      "مادة 1":"م",
+      "مادة 2":"ل",
+      "مادة 3":"ل"
     },
-    102:{
-        subjects:{
-            "مادة 1":"ر ت",
-            "مادة 2":"ض",
-            "مادة 3":"ض"
-        },
-        result:"راسب"
+    final:"ناجح"
+  },
+  102:{
+    name:"يوسف حسن",
+    subjects:{
+      "مادة 1":"ر ت",
+      "مادة 2":"ض",
+      "مادة 3":"ض"
     },
-    103:{
-        subjects:{
-            "مادة 1":"م",
-            "مادة 2":"ل",
-            "مادة 3":"ض"
-        },
-        result:"دور تاني"
+    final:"راسب"
+  },
+  103:{
+    name:"محمود إبراهيم",
+    subjects:{
+      "مادة 1":"م",
+      "مادة 2":"ل",
+      "مادة 3":"ض"
     },
-    104:{
-        subjects:{
-            "مادة 1":"م",
-            "مادة 2":"ل",
-            "مادة 3":"ج"
-        },
-        result:"ناجح"
+    final:"دور تاني"
+  },
+  104:{
+    name:"علي عبد الله",
+    subjects:{
+      "مادة 1":"م",
+      "مادة 2":"ل",
+      "مادة 3":"ج"
     },
-    105:{
-        subjects:{
-            "مادة 1":"م",
-            "مادة 2":"ل",
-            "مادة 3":"ج ج"
-        },
-        result:"ناجح"
-    }
+    final:"ناجح"
+  },
+  105:{
+    name:"خالد محمود",
+    subjects:{
+      "مادة 1":"م",
+      "مادة 2":"ل",
+      "مادة 3":"ج ج"
+    },
+    final:"ناجح"
+  }
 };
 
 function showResult(){
-    const seat = document.getElementById("seat").value;
-    const out = document.getElementById("output");
+  const seat = document.getElementById("seat").value;
+  const data = students[seat];
+  const div = document.getElementById("result");
 
-    if(!data[seat]){
-        out.innerHTML = "<p style='color:red;text-align:center'>رقم الجلوس غير موجود</p>";
-        return;
-    }
+  if(!data){
+    div.innerHTML = "<p class='fail'>رقم الجلوس غير موجود</p>";
+    return;
+  }
 
-    let html = `
-    <table>
-        <tr>
-            <th>المادة</th>
-            <th>التقدير</th>
-        </tr>`;
+  let rows = "";
+  for(let s in data.subjects){
+    rows += `<tr><td>${s}</td><td>${data.subjects[s]}</td></tr>`;
+  }
 
-    for(let sub in data[seat].subjects){
-        html += `
-        <tr>
-            <td>${sub}</td>
-            <td>${data[seat].subjects[sub]}</td>
-        </tr>`;
-    }
+  let cls = data.final === "ناجح" ? "success" :
+            data.final === "راسب" ? "fail" : "second";
 
-    html += "</table>";
+  div.innerHTML = `
+  <table>
+    <tr><th>رقم الجلوس</th><td>${seat}</td></tr>
+    <tr><th>اسم الطالب</th><td>${data.name}</td></tr>
+    <tr><th>الفرقة</th><td>الثانية</td></tr>
+    <tr><th>الحالة الدراسية</th><td>مستجد</td></tr>
+  </table>
 
-    let cls = "second";
-    if(data[seat].result==="ناجح") cls="success";
-    if(data[seat].result==="راسب") cls="fail";
+  <table>
+    <tr><th>المادة</th><th>التقدير</th></tr>
+    ${rows}
+  </table>
 
-    html += `<div class="result ${cls}">
-        النتيجة النهائية: ${data[seat].result}
-    </div>`;
-
-    out.innerHTML = html;
+  <table>
+    <tr><th>النتيجة النهائية</th></tr>
+    <tr><td class="${cls}">${data.final}</td></tr>
+  </table>
+  `;
 }
 </script>
 
