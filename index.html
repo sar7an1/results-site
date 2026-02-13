@@ -2,112 +2,106 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>نتائج المعهد العالي للخدمة الاجتماعية بكفر الشيخ</title>
+<!-- قفل الزوم -->
+<meta name="viewport"
+content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<title>نتائج المعهد العالي للخدمة الاجتماعية</title>
 
 <style>
+*{
+  box-sizing:border-box;
+  font-family: Arial, sans-serif;
+}
+
 body{
-    margin:0;
-    font-family: Arial, sans-serif;
-    background:#f5f5f5;
+  margin:0;
+  background:#f2f2f2;
+  overflow-x:hidden;
 }
 
 .container{
-    max-width:420px;
-    margin:10px auto;
-    background:#fff;
-    padding:15px;
-    border-radius:10px;
-    box-shadow:0 0 10px rgba(0,0,0,.15);
+  max-width:420px;
+  margin:10px auto;
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  box-shadow:0 0 10px rgba(0,0,0,.15);
 }
 
 /* اللوجو */
 .logo{
-    display:block;
-    margin:0 auto 10px;
-    width:90px;
+  display:block;
+  margin:0 auto 8px;
+  width:90px;
 }
 
 /* العنوان */
 h1{
-    text-align:center;
-    font-size:20px;
-    margin:5px 0 15px;
+  text-align:center;
+  font-size:20px;
+  margin:5px 0 15px;
 }
 
-/* input */
+/* إدخال */
 input{
-    width:100%;
-    padding:10px;
-    font-size:16px;
-    margin-bottom:10px;
+  width:100%;
+  padding:10px;
+  font-size:16px;
+  margin-bottom:10px;
 }
 
-/* زر */
 button{
-    width:100%;
-    padding:10px;
-    font-size:16px;
-    background:#0b4c7a;
-    color:#fff;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
+  width:100%;
+  padding:10px;
+  font-size:16px;
+  background:#0b4c7a;
+  color:#fff;
+  border:none;
+  border-radius:6px;
 }
 
 /* الجدول */
 table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:15px;
-    font-size:15px;
+  width:100%;
+  border-collapse:collapse;
+  margin-top:15px;
+  font-size:15px;
 }
 
 td{
-    border:1px solid #ccc;
-    padding:8px;
+  border:1px solid #ccc;
+  padding:8px;
 }
 
 td:first-child{
-    background:#f0f0f0;
-    width:45%;
+  background:#f0f0f0;
+  width:45%;
 }
 
-/* النتيجة */
-.success{
-    color:green;
-    font-weight:bold;
-}
-.fail{
-    color:red;
-    font-weight:bold;
-}
-.second{
-    color:#777;
-    font-weight:bold;
-}
+.success{color:green;font-weight:bold;}
+.fail{color:red;font-weight:bold;}
+.second{color:#777;font-weight:bold;}
 
 /* زر الطباعة */
 #printBtn{
-    display:none;
-    margin-top:15px;
-    background:#444;
+  display:none;
+  margin-top:15px;
+  background:#444;
 }
 
-/* إعدادات الطباعة */
+/* الطباعة */
 @media print{
-    body{
-        background:#fff;
-    }
-    .container{
-        box-shadow:none;
-        margin:0;
-        max-width:100%;
-    }
-    input, button{
-        display:none;
-    }
+  body{background:#fff;}
+  .container{
+    box-shadow:none;
+    margin:0;
+    max-width:100%;
+  }
+  input,button{
+    display:none;
+  }
 }
 </style>
 </head>
@@ -116,11 +110,15 @@ td:first-child{
 
 <div class="container">
 
-<img class="logo" src="https://i.ibb.co/rGNkvYSr/FB-IMG-1771020697204.jpg">
+<img class="logo"
+src="https://i.ibb.co/rGNkvYSr/FB-IMG-1771020697204.jpg">
 
-<h1>نتائج المعهد العالي للخدمة الاجتماعية<br>بكفر الشيخ</h1>
+<h1>
+نتائج المعهد العالي للخدمة الاجتماعية<br>
+بكفر الشيخ
+</h1>
 
-<input type="number" id="seat" placeholder="اكتب رقم الجلوس">
+<input type="number" id="seat" placeholder="اكتب رقم الجلوس (100 - 199)">
 
 <button onclick="showResult()">إظهار النتيجة</button>
 
@@ -131,52 +129,74 @@ td:first-child{
 </div>
 
 <script>
-const data = {
-  105:{
-    name:"سيف الدين",
+/* ===== توليد بيانات عشوائية ===== */
+const names = [
+  "أحمد","محمد","يوسف","عمر","محمود","عبد الله",
+  "إسلام","سيف","كريم","طارق","عبد الرحمن","علي"
+];
+
+const grades = ["م","ل","ض","ج","ج ج","ر ت"];
+const finals = ["ناجح","راسب","دور تاني"];
+
+const data = {};
+
+// توليد أرقام من 100 إلى 199
+for(let i=100;i<=199;i++){
+  data[i.toString()] = {
+    name:
+      names[Math.floor(Math.random()*names.length)] + " " +
+      names[Math.floor(Math.random()*names.length)],
     level:"الفرقة الثانية",
     status:"مستجد",
     subjects:[
-      ["مادة 1","م"],
-      ["مادة 2","ل"],
-      ["مادة 3","ج ج"]
+      ["مادة 1", grades[Math.floor(Math.random()*grades.length)]],
+      ["مادة 2", grades[Math.floor(Math.random()*grades.length)]],
+      ["مادة 3", grades[Math.floor(Math.random()*grades.length)]]
     ],
-    final:"ناجح"
-  }
-};
+    final: finals[Math.floor(Math.random()*finals.length)]
+  };
+}
 
+/* ===== عرض النتيجة ===== */
 function showResult(){
-  const seat = document.getElementById("seat").value;
-  const r = data[seat];
-  const box = document.getElementById("result");
+  const seat = document.getElementById("seat").value.trim();
+  const r = document.getElementById("result");
   const printBtn = document.getElementById("printBtn");
 
-  if(!r){
-    box.innerHTML = "<p style='color:red;text-align:center'>رقم الجلوس غير موجود</p>";
+  if(!data[seat]){
+    r.innerHTML =
+      "<p style='color:red;text-align:center'>رقم الجلوس غير موجود</p>";
     printBtn.style.display="none";
     return;
   }
 
+  const d = data[seat];
+
   let html = `
   <table>
     <tr><td>رقم الجلوس</td><td>${seat}</td></tr>
-    <tr><td>اسم الطالب</td><td>${r.name}</td></tr>
-    <tr><td>الفرقة</td><td>${r.level}</td></tr>
-    <tr><td>الحالة الدراسية</td><td>${r.status}</td></tr>
+    <tr><td>اسم الطالب</td><td>${d.name}</td></tr>
+    <tr><td>الفرقة</td><td>${d.level}</td></tr>
+    <tr><td>الحالة الدراسية</td><td>${d.status}</td></tr>
   `;
 
-  r.subjects.forEach(s=>{
+  d.subjects.forEach(s=>{
     html += `<tr><td>${s[0]}</td><td>${s[1]}</td></tr>`;
   });
 
-  let cls = r.final==="ناجح" ? "success" : r.final==="راسب" ? "fail" : "second";
+  let cls =
+    d.final==="ناجح" ? "success" :
+    d.final==="راسب" ? "fail" : "second";
 
   html += `
-    <tr><td>النتيجة النهائية</td><td class="${cls}">${r.final}</td></tr>
+    <tr>
+      <td>النتيجة النهائية</td>
+      <td class="${cls}">${d.final}</td>
+    </tr>
   </table>
   `;
 
-  box.innerHTML = html;
+  r.innerHTML = html;
   printBtn.style.display="block";
 }
 </script>
