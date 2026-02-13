@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>نتائج المعهد العالي للخدمة الاجتماعية بكفر الشيخ</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+    .box {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background: #eee;
+    }
+    .success {
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>نتائج المعهد العالي للخدمة الاجتماعية بكفر الشيخ</h2>
+
+  <input type="number" id="seat" placeholder="اكتب رقم الجلوس">
+  <button onclick="showResult()">إظهار النتيجة</button>
+
+  <div id="result"></div>
+</div>
+
+<script>
+const data = {
+  55: {
+    name: "ماجد أحمد",
+    year: "الفرقة الأولى",
+    subjects: {
+      "مادة 1": "ج",
+      "مادة 2": "م",
+      "مادة 3": "ل",
+      "مادة 4": "م",
+      "التربية العسكرية": "ناجح"
+    },
+    result: "ناجح"
+  }
+};
+
+function showResult() {
+  const seat = document.getElementById("seat").value; 
