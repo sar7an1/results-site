@@ -10,6 +10,8 @@
 body{
   font-family: Arial, Tahoma;
   background:#f2f2f2;
+  margin:0;
+  padding:0;
 }
 
 .container{
@@ -25,12 +27,13 @@ body{
 .logo{
   display:block;
   margin:0 auto 10px;
-  max-width:120px;
+  max-width:110px;
 }
 
 h2{
   text-align:center;
   margin-bottom:10px;
+  font-size:20px;
 }
 
 input{
@@ -39,7 +42,7 @@ input{
   font-size:18px;
   text-align:center;
   margin-bottom:10px;
-  appearance: none;
+  appearance:none;
 }
 
 button{
@@ -80,14 +83,46 @@ th{
   background:#555;
 }
 
-/* ===== الطباعة ===== */
+/* ===== إعدادات الطباعة (الحل النهائي) ===== */
 @media print{
-  body{ background:#fff; }
-  input, button{ display:none; }
+
+  @page{
+    size: A4;
+    margin: 10mm;
+  }
+
+  body{
+    background:#fff;
+  }
+
+  input, button{
+    display:none !important;
+  }
+
   .container{
-    box-shadow:none;
-    margin:0;
-    width:100%;
+    width:100% !important;
+    max-width:100% !important;
+    margin:0 !important;
+    padding:0 !important;
+    box-shadow:none !important;
+  }
+
+  table{
+    width:100% !important;
+    font-size:13px;
+  }
+
+  td, th{
+    padding:5px;
+  }
+
+  h2{
+    font-size:18px;
+  }
+
+  .logo{
+    max-width:90px;
+    margin-bottom:5px;
   }
 }
 </style>
@@ -97,7 +132,7 @@ th{
 
 <div class="container">
 
-<img src="./logo.png" alt="لوجو المعهد" class="logo">
+<img src="logo.png" alt="لوجو المعهد" class="logo">
 
 <h2>
 نتائج المعهد العالي للخدمة الاجتماعية<br>
@@ -109,8 +144,8 @@ th{
 
 <table id="resultTable" style="display:none">
   <tr>
-    <th>البيانات</th>
-    <th>البيانات</th>
+    <th>البيان</th>
+    <th>القيمة</th>
   </tr>
 
   <tr><td>رقم الجلوس</td><td id="r1"></td></tr>
@@ -125,8 +160,8 @@ th{
   <tr><td>التدريب الميداني</td><td id="r10"></td></tr>
   <tr><td>مشروع التخرج</td><td id="r11"></td></tr>
 
-  <tr><td>مادة تخلف </td><td id="tak1"></td></tr>
-  <tr><td>مادة تخلف </td><td id="tak2"></td></tr>
+  <tr><td>مادة تخلف (1)</td><td id="tak1"></td></tr>
+  <tr><td>مادة تخلف (2)</td><td id="tak2"></td></tr>
 
   <tr>
     <td>النتيجة النهائية</td>
