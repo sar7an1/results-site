@@ -5,61 +5,70 @@
 
 <!-- قفل الزوم نهائي -->
 <meta name="viewport"
-content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+minimum-scale=1.0,
+user-scalable=no">
 
 <title>نتائج المعهد العالي للخدمة الاجتماعية</title>
 
 <style>
-body{
-  font-family: Arial, Tahoma;
-  background:#f2f2f2;
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  width:100%;
+  overflow-x:hidden;
   margin:0;
   padding:0;
-  touch-action: manipulation;
+  font-family: Arial, Tahoma;
+  background:#f2f2f2;
 }
 
 .container{
-  width:360px;
-  margin:30px auto;
+  width:100%;
+  max-width:380px;
+  margin:20px auto;
   background:#fff;
-  padding:20px;
+  padding:16px;
   border-radius:10px;
   box-shadow:0 0 10px rgba(0,0,0,.1);
 }
 
-/* ===== اللوجو ===== */
 .logo{
   display:block;
-  margin:0 auto 10px;
-  max-width:110px;
+  margin:0 auto 8px;
+  max-width:100px;
 }
 
 h2{
   text-align:center;
-  margin-bottom:10px;
-  font-size:20px;
+  font-size:18px;
+  margin-bottom:12px;
 }
 
-/* input + button نفس الحجم */
-.input-btn{
+/* ===== مربع رقم الجلوس ===== */
+input{
   width:100%;
   height:48px;
   font-size:18px;
   text-align:center;
   margin-bottom:10px;
-  border-radius:6px;
-  box-sizing:border-box;
-}
-
-input{
   border:1px solid #ccc;
-  appearance:none;
+  border-radius:6px;
 }
 
+/* ===== زر ===== */
 button{
+  width:100%;
+  height:48px;
   background:#0b4a6f;
   color:#fff;
   border:none;
+  font-size:18px;
+  border-radius:6px;
   cursor:pointer;
 }
 
@@ -70,36 +79,36 @@ table{
   font-weight:bold;
 }
 
-td, th{
+td,th{
   border:1px solid #ccc;
-  padding:8px;
+  padding:7px;
   text-align:center;
+  word-break:break-word;
 }
 
 th{
   background:#f0f0f0;
 }
 
-/* ===== ألوان النتيجة ===== */
-.success{ background:#b7e6b7; color:#000; }
-.fail{ background:#f4b6b6; color:#000; }
-.other{ background:#fff0a8; color:#000; }
+.success{background:#b7e6b7;}
+.fail{background:#f4b6b6;}
+.other{background:#fff0a8;}
 
 #printBtn{
-  margin-top:15px;
+  margin-top:12px;
   background:#555;
 }
 
-/* ===== الطباعة ===== */
+/* ===== طباعة ===== */
 @media print{
-  @page{ size:A4; margin:10mm; }
-  body{ background:#fff; }
-  input,button{ display:none !important; }
+  input,button{display:none!important;}
   .container{
-    width:100% !important;
-    margin:0 !important;
-    padding:0 !important;
-    box-shadow:none !important;
+    box-shadow:none;
+    max-width:100%;
+    padding:0;
+  }
+  table{
+    font-size:13px;
   }
 }
 </style>
@@ -109,7 +118,7 @@ th{
 
 <div class="container">
 
-<img src="logo.png" alt="لوجو المعهد" class="logo">
+<img src="logo.png" class="logo">
 
 <h2>
 نتائج المعهد العالي للخدمة الاجتماعية<br>
@@ -117,94 +126,81 @@ th{
 </h2>
 
 <input
-  type="text"
   id="seat"
-  class="input-btn"
-  placeholder="أدخل رقم الجلوس"
+  placeholder="رقم الجلوس"
   inputmode="numeric"
->
+  oninput="this.value=this.value.replace(/[^0-9]/g,'')">
 
-<button class="input-btn" onclick="showResult()">إظهار النتيجة</button>
+<button onclick="showResult()">إظهار النتيجة</button>
 
 <table id="resultTable" style="display:none">
-  <tr>
-    <th>البيان</th>
-    <th>القيمة</th>
-  </tr>
+  <tbody id="tableBody"></tbody>
 </table>
 
-<button
-  id="printBtn"
-  class="input-btn"
-  onclick="window.print()"
-  style="display:none"
->
+<button id="printBtn" onclick="window.print()" style="display:none">
 🖨 طباعة النتيجة
 </button>
 
 </div>
 
 <script>
-/* أرقام فقط */
-const seatInput = document.getElementById("seat");
-seatInput.addEventListener("input", ()=>{
-  seatInput.value = seatInput.value.replace(/\D/g,'');
-});
-
 async function showResult(){
-  const seat = seatInput.value.trim();
-  if(!seat) return;
+  const seat=document.getElementById("seat").value.trim();
+  if(!seat)return;
 
-  const res = await fetch("data.json");
-  const data = await res.json();
+  const res=await fetch("data.json");
+  const data=await res.json();
 
-  const row = data.find(d => d["عمود1"] === seat);
+  const row=data.find(r=>r["عمود1"]===seat);
   if(!row){
     alert("رقم الجلوس غير موجود");
     return;
   }
 
-  const table = document.getElementById("resultTable");
-  table.innerHTML = `<tr><th>البيان</th><th>القيمة</th></tr>`;
+  const body=document.getElementById("tableBody");
+  body.innerHTML="";
 
-  addRow("رقم الجلوس", row["عمود1"]);
-  addRow("اسم الطالب", row["عمود2"]);
+  const addRow=(a,b)=>{
+    body.innerHTML+=`<tr><td>${a}</td><td>${b||""}</td></tr>`;
+  };
 
-  /* المواد الأساسية (عمود3 → عمود11 + أي مواد زيادة) */
-  Object.keys(row).forEach(key=>{
-    if(key.startsWith("عمود") && !["عمود1","عمود2","عمود12","عمود13","عمود14"].includes(key)){
-      addRow("مادة", row[key]);
+  addRow("رقم الجلوس",row["عمود1"]);
+  addRow("اسم الطالب",row["عمود2"]);
+
+  Object.keys(row).forEach(k=>{
+    if(
+      !["عمود1","عمود2","عمود12","عمود13","عمود14"].includes(k)
+      && k.startsWith("عمود")
+    ){
+      addRow(k,row[k]);
     }
   });
 
-  /* مواد التخلف */
-  addRow("مادة تخلف", row["عمود12"] || "لا يوجد مواد تخلف");
-  addRow("مادة تخلف", row["عمود13"] || "لا يوجد مواد تخلف");
+  const t1=row["عمود12"];
+  const t2=row["عمود13"];
 
-  /* النتيجة النهائية */
-  const tr = document.createElement("tr");
-  const td1 = document.createElement("td");
-  const td2 = document.createElement("td");
+  if(!t1 && !t2){
+    addRow("مواد تخلف","لا يوجد مواد تخلف");
+    addRow("","—");
+  }else{
+    addRow("مادة تخلف",t1||"—");
+    addRow("مادة تخلف",t2||"—");
+  }
 
-  td1.innerText = "النتيجة النهائية";
-  td2.innerText = row["عمود14"];
+  const final=row["عمود14"];
+  let cls="other";
+  if(final==="ناجح")cls="success";
+  else if(final==="راسب")cls="fail";
 
-  if(row["عمود14"]==="ناجح") td2.className="success";
-  else if(row["عمود14"]==="راسب") td2.className="fail";
-  else td2.className="other";
+  body.innerHTML+=`
+    <tr>
+      <td>النتيجة النهائية</td>
+      <td class="${cls}">${final}</td>
+    </tr>
+  `;
 
-  tr.appendChild(td1);
-  tr.appendChild(td2);
-  table.appendChild(tr);
-
-  table.style.display="table";
+  document.getElementById("resultTable").style.display="table";
   document.getElementById("printBtn").style.display="block";
-}
-
-function addRow(title,value){
-  const tr = document.createElement("tr");
-  tr.innerHTML = `<td>${title}</td><td>${value ?? ""}</td>`;
-  document.getElementById("resultTable").appendChild(tr);
 }
 </script>
 
