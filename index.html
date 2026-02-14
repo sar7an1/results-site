@@ -21,6 +21,13 @@ body{
   box-shadow:0 0 10px rgba(0,0,0,.1);
 }
 
+/* ===== اللوجو ===== */
+.logo{
+  display:block;
+  margin:0 auto 10px;
+  max-width:120px;
+}
+
 h2{
   text-align:center;
   margin-bottom:10px;
@@ -32,6 +39,7 @@ input{
   font-size:18px;
   text-align:center;
   margin-bottom:10px;
+  appearance: none;
 }
 
 button{
@@ -62,18 +70,25 @@ th{
   background:#f0f0f0;
 }
 
-.success{background:#c8f3c8;}
-.fail{background:#f6c1c1;}
-.other{background:#fff3b0;}
+/* ===== ألوان النتيجة ===== */
+.success{ background:#b7e6b7; color:#000; }
+.fail{ background:#f4b6b6; color:#000; }
+.other{ background:#fff0a8; color:#000; }
 
 #printBtn{
   margin-top:15px;
   background:#555;
 }
 
+/* ===== الطباعة ===== */
 @media print{
-  body{background:#fff;}
-  button,input{display:none;}
+  body{ background:#fff; }
+  input, button{ display:none; }
+  .container{
+    box-shadow:none;
+    margin:0;
+    width:100%;
+  }
 }
 </style>
 </head>
@@ -82,13 +97,21 @@ th{
 
 <div class="container">
 
-<h2>نتائج المعهد العالي للخدمة الاجتماعية<br>بكفر الشيخ</h2>
+<img src="./logo.png" alt="لوجو المعهد" class="logo">
+
+<h2>
+نتائج المعهد العالي للخدمة الاجتماعية<br>
+بكفر الشيخ
+</h2>
 
 <input type="text" id="seat" placeholder="أدخل رقم الجلوس">
 <button onclick="showResult()">إظهار النتيجة</button>
 
 <table id="resultTable" style="display:none">
-  <tr><th>المادة</th><th>التقدير</th></tr>
+  <tr>
+    <th>البيانات</th>
+    <th>االبيانات</th>
+  </tr>
 
   <tr><td>رقم الجلوس</td><td id="r1"></td></tr>
   <tr><td>اسم الطالب</td><td id="r2"></td></tr>
@@ -111,7 +134,9 @@ th{
   </tr>
 </table>
 
-<button id="printBtn" onclick="window.print()" style="display:none">🖨 طباعة النتيجة</button>
+<button id="printBtn" onclick="window.print()" style="display:none">
+🖨 طباعة النتيجة
+</button>
 
 </div>
 
@@ -148,12 +173,16 @@ async function showResult(){
   tak2.innerText = row["عمود13"] || "لا يوجد مواد تخلف";
 
   const final = document.getElementById("finalResult");
-  final.className="";
+  final.className = "";
   final.innerText = row["عمود14"];
 
-  if(row["عمود14"]==="ناجح") final.classList.add("success");
-  else if(row["عمود14"]==="راسب") final.classList.add("fail");
-  else final.classList.add("other");
+  if(row["عمود14"] === "ناجح"){
+    final.classList.add("success");
+  }else if(row["عمود14"] === "راسب"){
+    final.classList.add("fail");
+  }else{
+    final.classList.add("other");
+  }
 }
 </script>
 
