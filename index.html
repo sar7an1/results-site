@@ -3,80 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>نتائج المعهد العالي للخدمة الاجتماعية</title>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f2f2f2;
+body{
+  font-family: Arial, Tahoma;
+  background:#f2f2f2;
 }
 
-.container {
-  max-width: 480px;
-  margin: 30px auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,.1);
+.container{
+  width:360px;
+  margin:30px auto;
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 0 10px rgba(0,0,0,.1);
 }
 
-.logo {
-  text-align: center;
-  margin-bottom: 10px;
+h2{
+  text-align:center;
+  margin-bottom:10px;
 }
 
-.logo img {
-  max-width: 90px;
+input{
+  width:100%;
+  padding:10px;
+  font-size:18px;
+  text-align:center;
+  margin-bottom:10px;
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
+button{
+  width:100%;
+  padding:12px;
+  background:#0b4a6f;
+  color:#fff;
+  border:none;
+  font-size:18px;
+  border-radius:6px;
+  cursor:pointer;
 }
 
-input {
-  width: 100%;
-  padding: 10px;
-  font-size: 18px;
-  text-align: center;
-  margin-bottom: 10px;
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:15px;
+  font-weight:bold;
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  background: #0b4a6f;
-  color: #fff;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 4px;
+td, th{
+  border:1px solid #ccc;
+  padding:8px;
+  text-align:center;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
-  font-weight: bold;
+th{
+  background:#f0f0f0;
 }
 
-th, td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: center;
+.success{background:#c8f3c8;}
+.fail{background:#f6c1c1;}
+.other{background:#fff3b0;}
+
+#printBtn{
+  margin-top:15px;
+  background:#555;
 }
 
-th {
-  background: #f0f0f0;
-}
-
-.result-box {
-  color: #000;
-}
-
-.print-btn {
-  margin-top: 10px;
-  background: #555;
+@media print{
+  body{background:#fff;}
+  button,input{display:none;}
 }
 </style>
 </head>
@@ -85,97 +82,78 @@ th {
 
 <div class="container">
 
-  <div class="logo">
-    <img src="logo.png" alt="Logo">
-  </div>
+<h2>نتائج المعهد العالي للخدمة الاجتماعية<br>بكفر الشيخ</h2>
 
-  <h2>نتائج المعهد العالي للخدمة الاجتماعية<br>بكفر الشيخ</h2>
+<input type="text" id="seat" placeholder="أدخل رقم الجلوس">
+<button onclick="showResult()">إظهار النتيجة</button>
 
-  <input type="text" id="seatNumber" placeholder="أدخل رقم الجلوس">
-  <button onclick="showResult()">إظهار النتيجة</button>
+<table id="resultTable" style="display:none">
+  <tr><th>المادة</th><th>التقدير</th></tr>
 
-  <table id="resultTable" style="display:none">
-    <tr>
-      <th>التقدير</th>
-      <th>المادة</th>
-    </tr>
+  <tr><td>رقم الجلوس</td><td id="r1"></td></tr>
+  <tr><td>اسم الطالب</td><td id="r2"></td></tr>
+  <tr><td>الممارسة المهنية</td><td id="r3"></td></tr>
+  <tr><td>العمل مع الأفراد</td><td id="r4"></td></tr>
+  <tr><td>علم النفس</td><td id="r5"></td></tr>
+  <tr><td>علم الاجتماع</td><td id="r6"></td></tr>
+  <tr><td>حقوق الإنسان</td><td id="r7"></td></tr>
+  <tr><td>الخدمة الاجتماعية الطبية</td><td id="r8"></td></tr>
+  <tr><td>أخلاقيات الفئات الخاصة</td><td id="r9"></td></tr>
+  <tr><td>التدريب الميداني</td><td id="r10"></td></tr>
+  <tr><td>مشروع التخرج</td><td id="r11"></td></tr>
 
-    <tr><td id="r1"></td><td>رقم الجلوس</td></tr>
-    <tr><td id="r2"></td><td>اسم الطالب</td></tr>
-    <tr><td id="r3"></td><td>الممارسة المهنية</td></tr>
-    <tr><td id="r4"></td><td>العمل مع الأفراد</td></tr>
-    <tr><td id="r5"></td><td>علم النفس</td></tr>
-    <tr><td id="r6"></td><td>علم الاجتماع</td></tr>
-    <tr><td id="r7"></td><td>حقوق الإنسان</td></tr>
-    <tr><td id="r8"></td><td>الخدمة الاجتماعية الطبية</td></tr>
-    <tr><td id="r9"></td><td>أخلاقيات الفئات الخاصة</td></tr>
-    <tr><td id="r10"></td><td>التدريب الميداني</td></tr>
-    <tr><td id="r11"></td><td>مشروع التخرج</td></tr>
+  <tr><td>مادة تخلف (1)</td><td id="tak1"></td></tr>
+  <tr><td>مادة تخلف (2)</td><td id="tak2"></td></tr>
 
-    <tr><td id="tak1"></td><td>مادة تخلف (1)</td></tr>
-    <tr><td id="tak2"></td><td>مادة تخلف (2)</td></tr>
+  <tr>
+    <td>النتيجة النهائية</td>
+    <td id="finalResult"></td>
+  </tr>
+</table>
 
-    <tr>
-      <td id="finalResult" class="result-box"></td>
-      <td>النتيجة النهائية</td>
-    </tr>
-  </table>
+<button id="printBtn" onclick="window.print()" style="display:none">🖨 طباعة النتيجة</button>
 
-  <button class="print-btn" onclick="window.print()">🖨️ طباعة النتيجة</button>
 </div>
 
 <script>
-let data = [];
+async function showResult(){
+  const seat = document.getElementById("seat").value.trim();
+  if(!seat) return;
 
-fetch("data.json")
-  .then(r => r.json())
-  .then(j => data = j.slice(1));
+  const res = await fetch("data.json");
+  const data = await res.json();
 
-function showResult() {
-  const seat = document.getElementById("seatNumber").value.trim();
-  const s = data.find(x => x["عمود1"] === seat);
-
-  if (!s) {
+  const row = data.find(d => d["عمود1"] === seat);
+  if(!row){
     alert("رقم الجلوس غير موجود");
     return;
   }
 
-  resultTable.style.display = "table";
+  document.getElementById("resultTable").style.display="table";
+  document.getElementById("printBtn").style.display="block";
 
-  r1.textContent = s["عمود1"];
-  r2.textContent = s["عمود2"];
-  r3.textContent = s["عمود3"];
-  r4.textContent = s["عمود4"];
-  r5.textContent = s["عمود5"];
-  r6.textContent = s["عمود6"];
-  r7.textContent = s["عمود7"];
-  r8.textContent = s["عمود8"];
-  r9.textContent = s["عمود9"];
-  r10.textContent = s["عمود10"];
-  r11.textContent = s["عمود11"];
+  r1.innerText = row["عمود1"];
+  r2.innerText = row["عمود2"];
+  r3.innerText = row["عمود3"];
+  r4.innerText = row["عمود4"];
+  r5.innerText = row["عمود5"];
+  r6.innerText = row["عمود6"];
+  r7.innerText = row["عمود7"];
+  r8.innerText = row["عمود8"];
+  r9.innerText = row["عمود9"];
+  r10.innerText = row["عمود10"];
+  r11.innerText = row["عمود11"];
 
-  let t1 = s["عمود12"] || "";
-  let t2 = s["عمود13"] || "";
+  tak1.innerText = row["عمود12"] || "لا يوجد مواد تخلف";
+  tak2.innerText = row["عمود13"] || "لا يوجد مواد تخلف";
 
-  if (!t1 && !t2) {
-    t1 = "لا يوجد مواد تخلف";
-    t2 = "";
-  }
+  const final = document.getElementById("finalResult");
+  final.className="";
+  final.innerText = row["عمود14"];
 
-  tak1.textContent = t1;
-  tak2.textContent = t2;
-
-  const res = s["عمود14"];
-  finalResult.textContent = res;
-  finalResult.style.color = "#000";
-
-  if (res.includes("ناجح")) {
-    finalResult.style.background = "#c8f7c5";
-  } else if (res.includes("راسب")) {
-    finalResult.style.background = "#f7c5c5";
-  } else {
-    finalResult.style.background = "#fff3cd";
-  }
+  if(row["عمود14"]==="ناجح") final.classList.add("success");
+  else if(row["عمود14"]==="راسب") final.classList.add("fail");
+  else final.classList.add("other");
 }
 </script>
 
